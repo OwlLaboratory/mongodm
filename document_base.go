@@ -318,9 +318,7 @@ func (self *DocumentBase) Delete() error {
 
 	if self.Id.Valid() {
 
-		self.SetDeleted(true)
-
-		return self.Save()
+		return self.collection.Remove(self)
 	}
 
 	return errors.New("Invalid object id")
