@@ -22,8 +22,8 @@ type DocumentBase struct {
 	connection *Connection     `json:"-" bson:"-"`
 
 	Id        bson.ObjectId `json:"id" bson:"_id,omitempty"`
-	CreatedAt time.Time     `json:"createdAt" bson:"createdAt"`
-	UpdatedAt time.Time     `json:"updatedAt" bson:"updatedAt"`
+	Created time.Time     `json:"created" bson:"created"`
+	Updated time.Time     `json:"updated" bson:"updated"`
 	Deleted   bool          `json:"-" bson:"deleted"`
 }
 
@@ -49,20 +49,20 @@ func (self *DocumentBase) SetId(id bson.ObjectId) {
 	self.Id = id
 }
 
-func (self *DocumentBase) GetCreatedAt() time.Time {
-	return self.CreatedAt
+func (self *DocumentBase) GetCreated() time.Time {
+	return self.Created
 }
 
-func (self *DocumentBase) SetCreatedAt(createdAt time.Time) {
-	self.CreatedAt = createdAt
+func (self *DocumentBase) SetCreated(created time.Time) {
+	self.Created = created
 }
 
-func (self *DocumentBase) SetUpdatedAt(updatedAt time.Time) {
-	self.UpdatedAt = updatedAt
+func (self *DocumentBase) SetUpdated(updated time.Time) {
+	self.Updated = updated
 }
 
-func (self *DocumentBase) GetUpdatedAt() time.Time {
-	return self.UpdatedAt
+func (self *DocumentBase) GetUpdated() time.Time {
+	return self.Updated
 }
 
 func (self *DocumentBase) SetDeleted(deleted bool) {
@@ -262,8 +262,8 @@ func (self *DocumentBase) Update(content interface{}) (error, map[string]interfa
 
 			if typeMap, ok := mapValue.(map[string]interface{}); ok {
 
-				delete(typeMap, "createdAt")
-				delete(typeMap, "updatedAt")
+				delete(typeMap, "created")
+				delete(typeMap, "updated")
 				delete(typeMap, "id")
 				delete(typeMap, "deleted")
 			}
@@ -289,8 +289,8 @@ func (self *DocumentBase) Update(content interface{}) (error, map[string]interfa
 
 	} else if contentMap, ok := content.(map[string]interface{}); ok {
 
-		delete(contentMap, "createdAt")
-		delete(contentMap, "updatedAt")
+		delete(contentMap, "created")
+		delete(contentMap, "updated")
 		delete(contentMap, "id")
 		delete(contentMap, "deleted")
 
@@ -385,7 +385,7 @@ func (self *DocumentBase) Populate(field ...string) error {
 
 /*
 This method saves all changes for a document. Populated relations are getting converted to object ID's / array of object ID's so you dont have to handle this by yourself.
-Use this function also when the document was newly created, if it is not existent the method will call insert. During the save process createdAt and updatedAt gets also automatically persisted.
+Use this function also when the document was newly created, if it is not existent the method will call insert. During the save process created and updated gets also automatically persisted.
 
 For example:
 
@@ -567,8 +567,8 @@ func (self *DocumentBase) Save() error {
 	 */
 	if len(self.Id) == 0 {
 
-		self.SetCreatedAt(now)
-		self.SetUpdatedAt(now)
+		self.SetCreated(now)
+		self.SetUpdated(now)
 
 		self.SetId(bson.NewObjectId())
 
@@ -583,7 +583,7 @@ func (self *DocumentBase) Save() error {
 
 	} else {
 
-		self.SetUpdatedAt(now)
+		self.SetUpdated(now)
 		_, errs := collection.UpsertId(self.Id, self.document)
 
 		if errs != nil {

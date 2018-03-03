@@ -16,7 +16,7 @@ You can find an **example API application** [here](https://github.com/moehlone/m
 - validation (default and custom with regular expressions) followed by translated error list (customizable)
 - population instruction possible before and after querys
 - `Find()`, `FindOne()` and `FindID()`
-- default handling for `ID`, `CreatedAt`, `UpdatedAt` and `Deleted` attribute
+- default handling for `ID`, `Created`, `Updated` and `Deleted` attribute
 - extends `*mgo.Collection`
 - default localisation (fallback if none specified)
 - database authentication (user and password)
@@ -153,7 +153,7 @@ type User struct {
 ```
 
 It is important that each schema embeds the IDocumentBase type (mongodm.DocumentBase) and make sure that it is tagged as 'inline' for json and bson.
-This base type also includes the default values id, createdAt, updatedAt and deleted. Those values are set automatically from the ODM.
+This base type also includes the default values id, created, updated and deleted. Those values are set automatically from the ODM.
 The given example also uses a relation (User has Messages). Relations must always be from type interface{} for storing bson.ObjectId OR a completely
 populated object. And of course we also need the related model for each stored message:
 
@@ -246,7 +246,7 @@ User.Find() ...
 ### Persist a new document in a collection
 
 `Save()` persists all changes for a document. Populated relations are getting converted to object ID's / array of object ID's so you dont have to handle this by yourself.
-Use this function also when the document was newly created, if it is not existent the method will call insert. During the save process createdAt and updatedAt gets also automatically persisted.
+Use this function also when the document was newly created, if it is not existent the method will call insert. During the save process created and updated gets also automatically persisted.
 
 For example:
 

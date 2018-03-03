@@ -13,7 +13,7 @@ First step is to create a model, for example:
 	}
 
 It is important that each schema embeds the IDocumentBase type (mongodm.DocumentBase) and make sure that it is tagged as 'inline' for json and bson.
-This base type also includes the default values id, createdAt, updatedAt and deleted. Those values are set automatically from the ODM.
+This base type also includes the default values id, created, updated and deleted. Those values are set automatically from the ODM.
 The given example also uses a relation (User has Messages). Relations must always be from type interface{} for storing bson.ObjectId OR a completely
 populated object. And of course we also need the related model for each stored message:
 
@@ -120,11 +120,11 @@ type (
 		GetId() bson.ObjectId
 		SetId(bson.ObjectId)
 
-		SetCreatedAt(time.Time)
-		GetCreatedAt() time.Time
+		SetCreated(time.Time)
+		GetCreated() time.Time
 
-		SetUpdatedAt(time.Time)
-		GetUpdatedAt() time.Time
+		SetUpdated(time.Time)
+		GetUpdated() time.Time
 
 		SetDeleted(bool)
 		IsDeleted() bool
