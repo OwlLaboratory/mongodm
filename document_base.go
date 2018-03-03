@@ -318,6 +318,18 @@ func (self *DocumentBase) Delete() error {
 
 	if self.Id.Valid() {
 
+		self.SetDeleted(true)
+
+		return self.Save()
+	}
+
+	return errors.New("Invalid object id")
+}
+
+// Calling this method remove the object from the database.
+func (self *DocumentBase) FullDelete() error {
+
+	if self.Id.Valid() {
 		return self.collection.Remove(self)
 	}
 
